@@ -1,5 +1,5 @@
 const Solicitud = require('../models/solicitudes');
-const Empleado = require('../models/empleados'); // Añadido - importando el modelo de empleado
+const Empleado = require('../models/empleados');
 const Counter = require('../models/counter');
 
 exports.crearSolicitud = async (req, res) => {
@@ -59,7 +59,7 @@ exports.crearSolicitud = async (req, res) => {
   }
 };
 
-// Implementaciones para las demás funciones referenciadas en las rutas
+// Implementaciones para las demás funciones
 exports.obtenerSolicitudes = async (req, res) => {
   try {
     const solicitante = req.user.nombre_empleado;
@@ -67,6 +67,22 @@ exports.obtenerSolicitudes = async (req, res) => {
     res.status(200).json(solicitudes);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener solicitudes' });
+  }
+};
+
+// Asegúrate de añadir esta función a tu controlador existente
+// Función para obtener una solicitud específica por ID
+exports.obtenerSolicitudPorId = async (req, res) => {
+  try {
+    const solicitud = await Solicitud.findById(req.params.id);
+    
+    if (!solicitud) {
+      return res.status(404).json({ error: "Solicitud no encontrada" });
+    }
+    
+    res.status(200).json(solicitud);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
