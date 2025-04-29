@@ -62,10 +62,11 @@ exports.crearSolicitud = async (req, res) => {
 // Implementaciones para las demás funciones referenciadas en las rutas
 exports.obtenerSolicitudes = async (req, res) => {
   try {
-    const solicitudes = await Solicitud.find();
+    const solicitante = req.user.nombre_empleado;
+    const solicitudes = await Solicitud.find({solicitante});
     res.status(200).json(solicitudes);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Error al obtener solicitudes' });
   }
 };
 
